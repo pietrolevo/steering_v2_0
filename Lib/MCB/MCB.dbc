@@ -372,6 +372,9 @@ BO_ 357 DASH__hmiDevicesState : 3 DASH
  SG_ BTN_3_isPressed : 2|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
  SG_ BTN_4_isPressed : 3|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
  SG_ BTN_5_isPressed : 4|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
+ SG_ BTN_6_isPressed : 5|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
+ SG_ BTN_7_isPressed : 6|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
+ SG_ BTN_8_isPressed : 7|1@1+ (1,0) [0|1] "" DSPACE, SCANNER
  SG_ ROT_SW_1_state : 8|4@1+ (1,0) [0|9] "" DSPACE, SCANNER
  SG_ ROT_SW_2_state : 12|4@1+ (1,0) [0|9] "" DSPACE, SCANNER
  SG_ ROT_SW_3_state : 16|4@1+ (1,0) [0|9] "" DSPACE, SCANNER

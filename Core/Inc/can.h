@@ -45,6 +45,12 @@ void MX_CAN1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 void CAN_build_payload(uint8_t *payload, BTN_handleTypedef *hbtn, RSW_handleTypedef *hrsw);
+
+void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle);
+void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle);
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan);
+HAL_StatusTypeDef CAN_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, CAN_TxHeaderTypeDef *header);
+
 void CAN_steering_Msg_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, uint8_t len);
 
 /* USER CODE END Prototypes */

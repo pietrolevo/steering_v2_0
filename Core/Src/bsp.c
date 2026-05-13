@@ -1,13 +1,13 @@
 /**
  * @file    bsp.c
- * @author  Pietro Levo [pietro.levo.sc@gmail.com]
+ * @author  Pietro Levo [pietro.levo.sc@gmail.com]- Gizem Gure [gizem.gure.sc@gmail.com]
  * @date    2025-09-05 (date of creation)
- * @updated 2025-09-05 (date of last update)
- * @version vX.X.X
+ * @updated 2026-05-13 (date of last update)
+ * @version v0.2.0
  * @prefix  BSP
  *
  * @brief   Implementation of some software
- * @details This code implements bla bla
+ * @details This code implements button and rottaryswitch logic
  *
  * @license Licensed under "THE BEER-WARE LICENSE", Revision 69 
  *          see LICENSE file in the root directory of this software component
@@ -34,7 +34,10 @@ static struct GPIO_Tuple BTN_Device_to_GPIO_Tuple_map[BTN_Device_NUM] = {
     [BTN_2] = {.GPIO_Port = BTN_2_GPIO_Port, .GPIO_Pin = BTN_2_Pin},
     [BTN_3] = {.GPIO_Port = BTN_3_GPIO_Port, .GPIO_Pin = BTN_3_Pin},
     [BTN_4] = {.GPIO_Port = BTN_4_GPIO_Port, .GPIO_Pin = BTN_4_Pin},
-    [BTN_5] = {.GPIO_Port = BTN_5_GPIO_Port, .GPIO_Pin = BTN_5_Pin}
+    [BTN_5] = {.GPIO_Port = BTN_5_GPIO_Port, .GPIO_Pin = BTN_5_Pin},
+    [BTN_6] = {.GPIO_Port = BTN_6_GPIO_Port, .GPIO_Pin = BTN_6_Pin},
+    [BTN_7] = {.GPIO_Port = BTN_7_GPIO_Port, .GPIO_Pin = BTN_7_Pin},
+    [BTN_8] = {.GPIO_Port = BTN_8_GPIO_Port, .GPIO_Pin = BTN_8_Pin}
 };
 
 
@@ -85,14 +88,29 @@ GPIO_PinState RSW_Read_Pin(struct GPIO_Quad gpio, uint8_t index) {
 
 void BTN_Devices_Init(BTN_handleTypedef *hbtn, float btn_IIR_alpha) {
     for (uint8_t i = 0; i < BTN_Device_NUM; i++) {
-        hbtn[i].id = (enum BTN_Device) i;
+        hbtn[i].id = (enum BTN_Device)i;
         hbtn[i].gpio_tuple = BTN_Device_to_GPIO_Tuple_map[i];
+
         hbtn[i].value = 0;
         hbtn[i].prev_value = 0;
         hbtn[i].state = BTN_state_OFF;
 
+        hbtn[i].behavior = BTN_behavior_MOMENTARY;
+
         IIR_Init(&hbtn[i].filter, btn_IIR_alpha);
     }
+
+    // BTN_1 - BTN_4 momentary
+    hbtn[BTN_1].behavior = BTN_behavior_MOMENTARY;
+    hbtn[BTN_2].behavior = BTN_behavior_MOMENTARY;
+    hbtn[BTN_3].behavior = BTN_behavior_MOMENTARY;
+    hbtn[BTN_4].behavior = BTN_behavior_MOMENTARY;
+
+    // BTN_5 - BTN_8 toggle
+    hbtn[BTN_5].behavior = BTN_behavior_TOGGLE;
+    hbtn[BTN_6].behavior = BTN_behavior_TOGGLE;
+    hbtn[BTN_7].behavior = BTN_behavior_TOGGLE;
+    hbtn[BTN_8].behavior = BTN_behavior_TOGGLE;
 }
 
 
@@ -100,20 +118,33 @@ void BTN_Device_Sample(BTN_handleTypedef *hbtn) {
     GPIO_PinState raw_value = BTN_Read_Pin(hbtn->gpio_tuple);
 
     float input = (raw_value == GPIO_PIN_RESET) ? 1.0f : 0.0f;
+
     float filtered = IIR_Update(&hbtn->filter, input);
 
+    uint8_t current_pressed;
+
     if (filtered > BTN_THRESHOLD_HIGH) {
-        hbtn->value = 1;
+        current_pressed = 1;
     } else if (filtered < BTN_THRESHOLD_LOW) {
-        hbtn->value = 0;
+        current_pressed = 0;
+    } else {
+        current_pressed = hbtn->value; 
     }
 
-    if (hbtn->prev_value == 1 && hbtn->value == 0) {
-        hbtn->state = (hbtn->state == BTN_state_ON) ? BTN_state_OFF : BTN_state_ON;
-    }
+    uint8_t rising_edge = (hbtn->value == 0 && current_pressed == 1);
 
-    hbtn->prev_value = hbtn->value;
+    hbtn->value = current_pressed;
+    if (hbtn->behavior == BTN_behavior_MOMENTARY) {
+        hbtn->state = current_pressed ? BTN_state_ON : BTN_state_OFF;
+    } 
+    else if (hbtn->behavior == BTN_behavior_TOGGLE) {
+        if (rising_edge) {
+            hbtn->state = (hbtn->state == BTN_state_ON) ? BTN_state_OFF : BTN_state_ON;
+        }
+    }
 }
+
+
 
 
 void BTN_Device_SampleALL(BTN_handleTypedef *hbtn) {

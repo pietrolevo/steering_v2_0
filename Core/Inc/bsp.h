@@ -2,8 +2,8 @@
  * @file    bsp.h
  * @author  Pietro Levo [pietro.levo.sc@gmail.com]
  * @date    2025-09-05 (date of creation)
- * @updated 2025-09-05 (date of last update)
- * @version vX.X.X
+ * @updated 2026-04-22 (date of last update)
+ * @version v2.1.0 (buttons 6-7-8)
  * @prefix  BSP
  *
  * @brief   Implementation of some software
@@ -41,6 +41,9 @@ enum BTN_Device {
     BTN_3,
     BTN_4,
     BTN_5,
+    BTN_6,
+    BTN_7,
+    BTN_8,
     BTN_Device_NUM
 };
 
@@ -50,6 +53,10 @@ enum BTN_State {
     BTN_state_ON
 };
 
+enum BTN_Behavior {              //new addition
+    BTN_behavior_MOMENTARY,
+    BTN_behavior_TOGGLE
+};
 
 typedef struct {
     enum BTN_Device id;
@@ -57,6 +64,7 @@ typedef struct {
     uint8_t value;
     uint8_t prev_value;
     enum BTN_State state;
+    enum BTN_Behavior behavior;  //new addition
     IIR_filter filter;
 } BTN_handleTypedef;
 

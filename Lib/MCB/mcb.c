@@ -6349,7 +6349,12 @@ int mcb_dash_hmi_devices_state_pack(
     dst_p[0] |= pack_left_shift_u8(src_p->btn_2_is_pressed, 1u, 0x02u);
     dst_p[0] |= pack_left_shift_u8(src_p->btn_3_is_pressed, 2u, 0x04u);
     dst_p[0] |= pack_left_shift_u8(src_p->btn_4_is_pressed, 3u, 0x08u);
+
     dst_p[0] |= pack_left_shift_u8(src_p->btn_5_is_pressed, 4u, 0x10u);
+    dst_p[0] |= pack_left_shift_u8(src_p->btn_6_is_pressed, 5u, 0x20u);
+    dst_p[0] |= pack_left_shift_u8(src_p->btn_7_is_pressed, 6u, 0x40u);
+    dst_p[0] |= pack_left_shift_u8(src_p->btn_8_is_pressed, 7u, 0x80u);
+
     dst_p[1] |= pack_left_shift_u8(src_p->rot_sw_1_state, 0u, 0x0fu);
     dst_p[1] |= pack_left_shift_u8(src_p->rot_sw_2_state, 4u, 0xf0u);
     dst_p[2] |= pack_left_shift_u8(src_p->rot_sw_3_state, 0u, 0x0fu);
@@ -6371,6 +6376,9 @@ int mcb_dash_hmi_devices_state_unpack(
     dst_p->btn_3_is_pressed = unpack_right_shift_u8(src_p[0], 2u, 0x04u);
     dst_p->btn_4_is_pressed = unpack_right_shift_u8(src_p[0], 3u, 0x08u);
     dst_p->btn_5_is_pressed = unpack_right_shift_u8(src_p[0], 4u, 0x10u);
+    dst_p->btn_6_is_pressed = unpack_right_shift_u8(src_p[0], 5u, 0x20u);
+    dst_p->btn_7_is_pressed = unpack_right_shift_u8(src_p[0], 6u, 0x40u);
+    dst_p->btn_8_is_pressed = unpack_right_shift_u8(src_p[0], 7u, 0x80u);
     dst_p->rot_sw_1_state = unpack_right_shift_u8(src_p[1], 0u, 0x0fu);
     dst_p->rot_sw_2_state = unpack_right_shift_u8(src_p[1], 4u, 0xf0u);
     dst_p->rot_sw_3_state = unpack_right_shift_u8(src_p[2], 0u, 0x0fu);
@@ -6458,6 +6466,51 @@ double mcb_dash_hmi_devices_state_btn_5_is_pressed_decode(uint8_t value)
 }
 
 bool mcb_dash_hmi_devices_state_btn_5_is_pressed_is_in_range(uint8_t value)
+{
+    return (value <= 1u);
+}
+
+uint8_t mcb_dash_hmi_devices_state_btn_6_is_pressed_encode(double value)
+{
+    return (uint8_t)(value);
+}
+
+double mcb_dash_hmi_devices_state_btn_6_is_pressed_decode(uint8_t value)
+{
+    return ((double)value);
+}
+
+bool mcb_dash_hmi_devices_state_btn_6_is_pressed_is_in_range(uint8_t value)
+{
+    return (value <= 1u);
+}
+
+uint8_t mcb_dash_hmi_devices_state_btn_7_is_pressed_encode(double value)
+{
+    return (uint8_t)(value);
+}
+
+double mcb_dash_hmi_devices_state_btn_7_is_pressed_decode(uint8_t value)
+{
+    return ((double)value);
+}
+
+bool mcb_dash_hmi_devices_state_btn_7_is_pressed_is_in_range(uint8_t value)
+{
+    return (value <= 1u);
+}
+
+uint8_t mcb_dash_hmi_devices_state_btn_8_is_pressed_encode(double value)
+{
+    return (uint8_t)(value);
+}
+
+double mcb_dash_hmi_devices_state_btn_8_is_pressed_decode(uint8_t value)
+{
+    return ((double)value);
+}
+
+bool mcb_dash_hmi_devices_state_btn_8_is_pressed_is_in_range(uint8_t value)
 {
     return (value <= 1u);
 }

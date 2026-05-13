@@ -2,8 +2,8 @@
  * @file    steering.c
  * @author  Pietro Levo [pietro.levo.sc@gmail.com]
  * @date    2025-09-03 (date of creation)
- * @updated 2025-09-04 (date of last update)
- * @version v0.1.0
+ * @updated 2026-05-13 (date of last update)
+ * @version v0.1.1
  * @prefix  STE
  *
  * @brief   Implementation of some software
@@ -23,7 +23,7 @@
 #define RSW_SAMPLE_TIME 10
 #define CAN_CYCLE_TIME 200
 
-#define BTN_IIR_ALPHA 0.66f
+#define BTN_IIR_ALPHA 0.3f
 #define RSW_IIR_ALPHA 0.66f
 /*---------- Private macro ---------------------------------------------------*/
 

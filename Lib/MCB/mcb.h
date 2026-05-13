@@ -640,6 +640,9 @@ extern "C" {
 #define MCB_DASH_HMI_DEVICES_STATE_BTN_3_IS_PRESSED_NAME "BTN_3_isPressed"
 #define MCB_DASH_HMI_DEVICES_STATE_BTN_4_IS_PRESSED_NAME "BTN_4_isPressed"
 #define MCB_DASH_HMI_DEVICES_STATE_BTN_5_IS_PRESSED_NAME "BTN_5_isPressed"
+#define MCB_DASH_HMI_DEVICES_STATE_BTN_6_IS_PRESSED_NAME "BTN_6_isPressed"
+#define MCB_DASH_HMI_DEVICES_STATE_BTN_7_IS_PRESSED_NAME "BTN_7_isPressed"
+#define MCB_DASH_HMI_DEVICES_STATE_BTN_8_IS_PRESSED_NAME "BTN_8_isPressed"
 #define MCB_DASH_HMI_DEVICES_STATE_ROT_SW_1_STATE_NAME "ROT_SW_1_state"
 #define MCB_DASH_HMI_DEVICES_STATE_ROT_SW_2_STATE_NAME "ROT_SW_2_state"
 #define MCB_DASH_HMI_DEVICES_STATE_ROT_SW_3_STATE_NAME "ROT_SW_3_state"
@@ -3266,6 +3269,10 @@ struct mcb_dash_hmi_devices_state_t {
      * Offset: 0
      */
     uint8_t btn_5_is_pressed;
+
+    uint8_t btn_6_is_pressed;
+    uint8_t btn_7_is_pressed;
+    uint8_t btn_8_is_pressed;
 
     /**
      * Rotary Switch 1 state
