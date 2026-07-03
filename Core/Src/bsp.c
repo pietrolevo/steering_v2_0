@@ -37,7 +37,8 @@ static struct GPIO_Tuple BTN_Device_to_GPIO_Tuple_map[BTN_Device_NUM] = {
     [BTN_5] = {.GPIO_Port = BTN_5_GPIO_Port, .GPIO_Pin = BTN_5_Pin},
     [BTN_6] = {.GPIO_Port = BTN_6_GPIO_Port, .GPIO_Pin = BTN_6_Pin},
     [BTN_7] = {.GPIO_Port = BTN_7_GPIO_Port, .GPIO_Pin = BTN_7_Pin},
-    [BTN_8] = {.GPIO_Port = BTN_8_GPIO_Port, .GPIO_Pin = BTN_8_Pin}
+    [BTN_8] = {.GPIO_Port = BTN_8_GPIO_Port, .GPIO_Pin = BTN_8_Pin},
+    [BTN_9] = {.GPIO_Port = BTN_9_GPIO_Port, .GPIO_Pin = BTN_9_Pin}
 };
 
 
@@ -105,12 +106,14 @@ void BTN_Devices_Init(BTN_handleTypedef *hbtn, float btn_IIR_alpha) {
     hbtn[BTN_2].behavior = BTN_behavior_MOMENTARY;
     hbtn[BTN_3].behavior = BTN_behavior_MOMENTARY;
     hbtn[BTN_4].behavior = BTN_behavior_MOMENTARY;
+ //   hbtn[BTN_9].behavior = BTN_behavior_MOMENTARY;
 
     // BTN_5 - BTN_8 toggle
     hbtn[BTN_5].behavior = BTN_behavior_TOGGLE;
     hbtn[BTN_6].behavior = BTN_behavior_TOGGLE;
     hbtn[BTN_7].behavior = BTN_behavior_TOGGLE;
     hbtn[BTN_8].behavior = BTN_behavior_TOGGLE;
+    hbtn[BTN_9].behavior = BTN_behavior_TOGGLE;
 }
 
 

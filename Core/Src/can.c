@@ -28,7 +28,7 @@
 #include "mcb.h"
 
 void CAN_build_payload(uint8_t *payload, BTN_handleTypedef *hbtn, RSW_handleTypedef *hrsw) {
-    struct mcb_dash_hmi_devices_state_t hmi;
+    struct mcb_steering_hmi_devices_state_t hmi;
 
     hmi.btn_1_is_pressed = (BTN_Device_GetState(&hbtn[BTN_1]) == BTN_state_ON);
     hmi.btn_2_is_pressed = (BTN_Device_GetState(&hbtn[BTN_2]) == BTN_state_ON);
@@ -39,12 +39,13 @@ void CAN_build_payload(uint8_t *payload, BTN_handleTypedef *hbtn, RSW_handleType
     hmi.btn_6_is_pressed = (BTN_Device_GetState(&hbtn[BTN_6]) == BTN_state_ON);
     hmi.btn_7_is_pressed = (BTN_Device_GetState(&hbtn[BTN_7]) == BTN_state_ON);
     hmi.btn_8_is_pressed = (BTN_Device_GetState(&hbtn[BTN_8]) == BTN_state_ON);
+    hmi.btn_9_is_pressed = (BTN_Device_GetState(&hbtn[BTN_9]) == BTN_state_ON);
 
     hmi.rot_sw_1_state = RSW_Device_GetState(&hrsw[RSW_Device1]);  
     hmi.rot_sw_2_state = RSW_Device_GetState(&hrsw[RSW_Device2]);  
     hmi.rot_sw_3_state = RSW_Device_GetState(&hrsw[RSW_Device3]); 
 
-    mcb_dash_hmi_devices_state_pack(payload, &hmi, 3u);
+    mcb_steering_hmi_devices_state_pack(payload, &hmi, 3u);
 }
 
 
@@ -224,7 +225,7 @@ HAL_StatusTypeDef CAN_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, CAN_TxHeade
 
 void CAN_steering_Msg_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, uint8_t len) {
   CAN_TxHeaderTypeDef header;
-  header.StdId = 0x165;
+  header.StdId = 0x16E;
   header.IDE = CAN_ID_STD;
   header.RTR = CAN_RTR_DATA;
   header.DLC = len;

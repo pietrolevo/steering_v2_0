@@ -44,6 +44,7 @@ enum BTN_Device {
     BTN_6,
     BTN_7,
     BTN_8,
+    BTN_9,
     BTN_Device_NUM
 };
 
