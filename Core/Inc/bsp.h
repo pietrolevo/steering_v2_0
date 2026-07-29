@@ -19,9 +19,14 @@
 
 /* ---------- Includes -------------------------------------------------------*/
 #include "gpio.h"
+#include "mcb.h"
+#include "can.h"
+
 #include "IIR_filter.h"
 
 /* ---------- Exported types -------------------------------------------------*/
+#define MCB_Handle hcan1
+
 struct GPIO_Tuple {
     GPIO_TypeDef *GPIO_Port;
     uint16_t GPIO_Pin;
@@ -111,6 +116,7 @@ void RSW_Device_Sample(RSW_handleTypedef *hrsw);
 void RSW_Device_SampleALL(RSW_handleTypedef *hrsw);
 uint8_t RSW_Device_GetState(RSW_handleTypedef *hrsw);
 
+void MCB_send_msg(uint32_t id, BTN_handleTypedef *hbtn, RSW_handleTypedef *hrsw);
 
 /* ---------- Private types --------------------------------------------------*/
 

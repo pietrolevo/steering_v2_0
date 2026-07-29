@@ -27,28 +27,6 @@
 #include "string.h"
 #include "mcb.h"
 
-void CAN_build_payload(uint8_t *payload, BTN_handleTypedef *hbtn, RSW_handleTypedef *hrsw) {
-    struct mcb_steering_hmi_devices_state_t hmi;
-
-    hmi.btn_1_is_pressed = (BTN_Device_GetState(&hbtn[BTN_1]) == BTN_state_ON);
-    hmi.btn_2_is_pressed = (BTN_Device_GetState(&hbtn[BTN_2]) == BTN_state_ON);
-    hmi.btn_3_is_pressed = (BTN_Device_GetState(&hbtn[BTN_3]) == BTN_state_ON);
-    hmi.btn_4_is_pressed = (BTN_Device_GetState(&hbtn[BTN_4]) == BTN_state_ON);
-
-    hmi.btn_5_is_pressed = (BTN_Device_GetState(&hbtn[BTN_5]) == BTN_state_ON);
-    hmi.btn_6_is_pressed = (BTN_Device_GetState(&hbtn[BTN_6]) == BTN_state_ON);
-    hmi.btn_7_is_pressed = (BTN_Device_GetState(&hbtn[BTN_7]) == BTN_state_ON);
-    hmi.btn_8_is_pressed = (BTN_Device_GetState(&hbtn[BTN_8]) == BTN_state_ON);
-    hmi.btn_9_is_pressed = (BTN_Device_GetState(&hbtn[BTN_9]) == BTN_state_ON);
-
-    hmi.rot_sw_1_state = RSW_Device_GetState(&hrsw[RSW_Device1]);  
-    hmi.rot_sw_2_state = RSW_Device_GetState(&hrsw[RSW_Device2]);  
-    hmi.rot_sw_3_state = RSW_Device_GetState(&hrsw[RSW_Device3]); 
-
-    mcb_steering_hmi_devices_state_pack(payload, &hmi, 3u);
-}
-
-
 void CAN_ErrorHandler(CAN_HandleTypeDef *hcan) {
     char buf[20];
     uint32_t error = HAL_CAN_GetError(hcan);
@@ -216,24 +194,12 @@ static HAL_StatusTypeDef CAN_wait(CAN_HandleTypeDef *hcan, uint8_t timeout) {
 }
 
 HAL_StatusTypeDef CAN_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, CAN_TxHeaderTypeDef *header) {
+  if(CAN_wait(hcan, 1) != HAL_OK) return HAL_TIMEOUT;
   uint32_t mailbox;
 
   HAL_StatusTypeDef status = HAL_CAN_AddTxMessage(hcan, header, buffer, &mailbox);
 
   return status;
-}
-
-void CAN_steering_Msg_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, uint8_t len) {
-  CAN_TxHeaderTypeDef header;
-  header.StdId = 0x16E;
-  header.IDE = CAN_ID_STD;
-  header.RTR = CAN_RTR_DATA;
-  header.DLC = len;
-  header.TransmitGlobalTime = DISABLE;
-
-  if (CAN_send(hcan, buffer, &header) != HAL_OK) {
-    CAN_ErrorHandler(hcan);
-  }
 }
 
 /* USER CODE END 1 */

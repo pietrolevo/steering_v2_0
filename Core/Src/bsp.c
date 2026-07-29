@@ -216,4 +216,34 @@ uint8_t RSW_Device_GetState(RSW_handleTypedef *hrsw) {
     return hrsw->state;
 }
 
+void MCB_send_msg(uint32_t id, BTN_handleTypedef *hbtn, RSW_handleTypedef *hrsw) {
+    uint8_t buffer[8] = {0};
+
+    struct mcb_steering_hmi_devices_state_t hmi;
+
+    CAN_TxHeaderTypeDef tx_header = {.RTR = CAN_RTR_DATA, .IDE = CAN_ID_STD};
+
+    tx_header.StdId = id;
+
+    hmi.btn_1_is_pressed = mcb_steering_hmi_devices_state_btn_1_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_1]) == BTN_state_ON);
+    hmi.btn_2_is_pressed = mcb_steering_hmi_devices_state_btn_2_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_2]) == BTN_state_ON);
+    hmi.btn_3_is_pressed = mcb_steering_hmi_devices_state_btn_3_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_3]) == BTN_state_ON);
+    hmi.btn_4_is_pressed = mcb_steering_hmi_devices_state_btn_4_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_4]) == BTN_state_ON);
+
+    hmi.btn_5_is_pressed = mcb_steering_hmi_devices_state_btn_5_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_5]) == BTN_state_ON);
+    hmi.btn_6_is_pressed = mcb_steering_hmi_devices_state_btn_6_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_6]) == BTN_state_ON);
+    hmi.btn_7_is_pressed = mcb_steering_hmi_devices_state_btn_7_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_7]) == BTN_state_ON);
+    hmi.btn_8_is_pressed = mcb_steering_hmi_devices_state_btn_8_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_8]) == BTN_state_ON);
+    hmi.btn_9_is_pressed = mcb_steering_hmi_devices_state_btn_9_is_pressed_encode(BTN_Device_GetState(&hbtn[BTN_9]) == BTN_state_ON);
+
+    hmi.rot_sw_1_state = mcb_steering_hmi_devices_state_rot_sw_1_state_encode(RSW_Device_GetState(&hrsw[RSW_Device1]));  
+    hmi.rot_sw_2_state = mcb_steering_hmi_devices_state_rot_sw_2_state_encode(RSW_Device_GetState(&hrsw[RSW_Device2]));  
+    hmi.rot_sw_3_state = mcb_steering_hmi_devices_state_rot_sw_3_state_encode(RSW_Device_GetState(&hrsw[RSW_Device3])); 
+
+    tx_header.DLC = mcb_steering_hmi_devices_state_pack(buffer, &hmi, MCB_STEERING_HMI_DEVICES_STATE_LENGTH);
+
+    // TODO: check for HAL_TIMEOUT
+    CAN_send(&MCB_Handle, buffer, &tx_header);
+}
+
 /*---------- Private Functions -----------------------------------------------*/

@@ -24,6 +24,7 @@
 #include "usart.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 /* ---------- Exported types -------------------------------------------------*/
 typedef struct {

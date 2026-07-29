@@ -57,8 +57,7 @@ void Steering_Run() {
 
     if (now >= sfwTimCan) {
         sfwTimCan = now + CAN_CYCLE_TIME;
-        CAN_build_payload(payload, steering_v2_0.hbtn, steering_v2_0.hrsw);
-        CAN_steering_Msg_send(&hcan1, payload, 3);
+        MCB_send_msg(MCB_STEERING_HMI_DEVICES_STATE_FRAME_ID, steering_v2_0.hbtn, steering_v2_0.hrsw);
     }
 }
 
